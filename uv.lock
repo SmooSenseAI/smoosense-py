@@ -1730,7 +1730,7 @@ wheels = [
 
 [[package]]
 name = "smoosense"
-version = "0.0.1rc4"
+version = "0.0.1rc5"
 source = { editable = "." }
 dependencies = [
     { name = "boto3" },

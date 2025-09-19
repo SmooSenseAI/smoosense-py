@@ -1,13 +1,15 @@
 """Homepage integration tests."""
 
 import sys
-import time
 from pathlib import Path
 
 # Add the intests directory to sys.path for imports
 sys.path.insert(0, str(Path(__file__).parent))
 
 from base_integration_test import BaseIntegrationTest
+from my_logging import getLogger
+
+logger = getLogger(__name__)
 
 
 class TestHomepage(BaseIntegrationTest):
@@ -15,7 +17,9 @@ class TestHomepage(BaseIntegrationTest):
 
     def test_homepage_loads_successfully(self) -> None:
         """Test that the homepage loads successfully and contains expected content."""
+
         # Navigate to the homepage
+        logger.info(f"Navigating to homepage: {self.base_url}")
         response = self.page.goto(self.base_url)
 
         # Check that the response was successful
@@ -29,17 +33,19 @@ class TestHomepage(BaseIntegrationTest):
         body_content = self.page.locator("body").text_content()
         self.assertIsNotNone(body_content)
         self.assertGreater(len(body_content.strip()), 0, "Page appears to be blank")
+        logger.info(f"Page content length: {len(body_content.strip())} characters")
 
         # Check that the page title is accessible (optional check)
         title = self.page.title()
-        print(f"Page title: '{title}'")
+        logger.info(f"Page title: '{title}'")
 
-        # Take a screenshot for debugging/verification
-        self.take_screenshot("homepage_loaded.png")
+        logger.info("Homepage load test completed successfully")
 
     def test_settings_icon_button_and_popover(self) -> None:
         """Test that the settings icon button exists and shows a popover when clicked."""
+
         # Navigate to the homepage
+        logger.info(f"Navigating to homepage: {self.base_url}")
         response = self.page.goto(self.base_url)
         self.assertEqual(response.status, 200)
 
@@ -47,7 +53,6 @@ class TestHomepage(BaseIntegrationTest):
         self.page.wait_for_load_state("networkidle")
 
         # Find the settings button using the exact selector from the UI code
-        # IconPopover with Settings icon creates a PopoverTrigger with title="Settings"
         settings_button = self.page.locator('[data-slot="popover-trigger"][title="Settings"]')
 
         # Assert that the settings button exists
@@ -57,7 +62,6 @@ class TestHomepage(BaseIntegrationTest):
         settings_button.click()
 
         # Wait for the popover to appear and find it using the exact selector
-        # PopoverContent creates an element with data-slot="popover-content"
         popover = self.page.locator('[data-slot="popover-content"]')
 
         # Wait for the popover to be visible
@@ -66,6 +70,39 @@ class TestHomepage(BaseIntegrationTest):
         # Assert that the popover is visible
         self.assertTrue(popover.is_visible(), "Settings popover did not appear")
 
-        # Take a screenshot of the popover state
-        self.take_screenshot("settings_popover.png")
+        # Assert debug mode toggle exists
+        logger.info("Checking debug mode toggle")
+        debug_toggle = popover.locator('#debug-mode[data-slot="switch"]')
+        self.assertEqual(debug_toggle.count(), 1, "Debug mode toggle not found")
+        debug_state = debug_toggle.get_attribute("data-state")
+        self.assertEqual(debug_state, "unchecked", "Debug mode should be off by default")
 
+        # Assert theme button group exists
+        logger.info("Checking theme button group")
+        theme_buttons = popover.locator(
+            'button[title="Light"], button[title="System"], button[title="Dark"]'
+        )
+        self.assertEqual(theme_buttons.count(), 3, "Theme button group should have 3 buttons")
+
+        # Assert that System theme is selected by default
+        logger.info("Checking System theme selection")
+        system_button = popover.locator('button[title="System"]')
+        self.assertEqual(system_button.count(), 1, "System theme button not found")
+        system_classes = system_button.get_attribute("class") or ""
+        self.assertIn("bg-primary", system_classes, "System theme should be selected by default")
+        self.assertIn(
+            "text-primary-foreground", system_classes, "System theme should have primary styling"
+        )
+        logger.info("System theme is correctly selected")
+
+        # Assert font size slider exists
+        logger.info("Checking font size slider")
+        font_size_slider = popover.locator("#fontSize-slider")
+        self.assertEqual(font_size_slider.count(), 1, "Font size slider not found")
+
+        # Check that the slider label exists
+        font_size_label = popover.locator('label:has-text("Font Size")')
+        self.assertEqual(font_size_label.count(), 1, "Font size label not found")
+        logger.info("Font size slider and label found")
+
+        logger.info("Settings popover test completed successfully")

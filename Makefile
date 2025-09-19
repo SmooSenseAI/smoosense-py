@@ -13,6 +13,8 @@ env:
 unit-test:
 	uv run python -m unittest discover tests/
 
+integration-test:
+	uv run python -m unittest discover -s intests -p "test_*.py"
 
 build:
 	(rm -rf dist)

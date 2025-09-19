@@ -1,5 +1,3 @@
-"""Logging configuration for integration tests."""
-
 import logging
 
 from rich.logging import RichHandler
@@ -8,7 +6,7 @@ from rich.logging import RichHandler
 class CommaFormatter(logging.Formatter):
     """Custom formatter that adds commas to relativeCreated time"""
 
-    def format(self, record):
+    def format(self, record: logging.LogRecord) -> str:
         # Format relativeCreated with commas
         record.relativeCreatedFormatted = f"{int(record.relativeCreated):,}"
         return super().format(record)
@@ -23,5 +21,5 @@ handler.setFormatter(
 logging.basicConfig(level=logging.INFO, handlers=[handler])
 
 
-def getLogger(name: str):
+def getLogger(name: str) -> logging.Logger:
     return logging.getLogger(name)

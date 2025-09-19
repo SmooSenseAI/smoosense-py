@@ -1,5 +1,4 @@
 import os
-import socket
 import threading
 import time
 import webbrowser
@@ -9,6 +8,7 @@ from importlib.metadata import version as get_version
 import click
 
 from smoosense.app import SmooSenseApp
+from smoosense.utils.port import find_available_port
 
 ASCII_ART = """
  ▗▄▄▖▗▖  ▗▖ ▗▄▖  ▗▄▖  ▗▄▄▖▗▄▄▄▖▗▖  ▗▖ ▗▄▄▖▗▄▄▄▖
@@ -24,20 +24,6 @@ def get_package_version() -> str:
         return get_version("smoosense")
     except PackageNotFoundError:
         return "dev"
-
-
-def find_available_port(start_port: int = 8000, max_attempts: int = 100) -> int:
-    """Find an available port starting from start_port."""
-    for port in range(start_port, start_port + max_attempts):
-        try:
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.bind(("localhost", port))
-                return port
-        except OSError:
-            continue
-    raise RuntimeError(
-        f"Could not find an available port in range {start_port}-{start_port + max_attempts - 1}"
-    )
 
 
 def open_browser_after_delay(url: str, delay: int = 1) -> None:

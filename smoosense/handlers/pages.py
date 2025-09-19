@@ -65,6 +65,11 @@ def get_tabular_slice_dice() -> Response:
     return serve_static_html("Table")
 
 
+@pages_bp.get("/MiniTable")
+def get_mini_table() -> Response:
+    return serve_static_html("MiniTable")
+
+
 @pages_bp.get("/api/health")
 def healthchecker() -> Response:
     return jsonify({"status": "success", "message": "SmooSense is running"})

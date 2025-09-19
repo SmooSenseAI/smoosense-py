@@ -20,7 +20,7 @@ PWD = os.path.dirname(os.path.abspath(__file__))
 logger = logging.getLogger(__name__)
 
 
-class SenseTableApp:
+class SmooSenseApp:
     @validate_call(config=ConfigDict(arbitrary_types_allowed=True))
     def __init__(
         self,
@@ -73,7 +73,7 @@ class SenseTableApp:
 if __name__ == "__main__":
     session = boto3.Session(profile_name="readonly")
     s3_client = session.client("s3")
-    SenseTableApp(
+    SmooSenseApp(
         s3_client=s3_client,
         duckdb_connection_maker=duckdb_connection_using_s3(s3_client=s3_client),
         folder_shortcuts={

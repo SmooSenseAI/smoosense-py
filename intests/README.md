@@ -1,11 +1,11 @@
 # Integration Tests
 
-This directory contains integration tests for the SenseTableApp using unittest and Playwright.
+This directory contains integration tests for the SmooSenseApp using unittest and Playwright.
 
 ## Overview
 
 The integration tests verify that:
-- The SenseTableApp server starts correctly
+- The SmooSenseApp server starts correctly
 - The homepage loads successfully
 - The server responds within reasonable time limits
 - The homepage has proper content structure
@@ -49,7 +49,7 @@ uv run python -m unittest intests.test_homepage.TestHomepage.test_homepage_loads
 ### Base Classes
 - `base_integration_test.py`: Base test class with server and browser management
   - `BaseIntegrationTest`: Provides server startup/shutdown and browser lifecycle
-  - `ServerFixture`: Manages SenseTableApp server in separate thread
+  - `ServerFixture`: Manages SmooSenseApp server in separate thread
 
 ### Test Files
 - `test_homepage.py`: Homepage-specific integration tests

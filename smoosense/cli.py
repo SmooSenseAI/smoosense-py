@@ -8,7 +8,7 @@ from importlib.metadata import version as get_version
 
 import click
 
-from smoosense.app import SenseTableApp
+from smoosense.app import SmooSenseApp
 
 ASCII_ART = """
  ▗▄▄▖▗▖  ▗▖ ▗▄▖  ▗▄▖  ▗▄▄▖▗▄▄▄▖▗▖  ▗▖ ▗▄▄▖▗▄▄▄▖
@@ -61,7 +61,7 @@ def run_app() -> None:
     browser_thread = threading.Thread(target=open_browser_after_delay, args=(url,), daemon=True)
     browser_thread.start()
 
-    SenseTableApp().run(host="localhost", port=port)
+    SmooSenseApp().run(host="localhost", port=port)
 
 
 @click.command()

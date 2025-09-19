@@ -11,7 +11,7 @@ from typing import Optional
 from my_logging import getLogger
 from playwright.sync_api import BrowserContext, Page, sync_playwright
 
-from smoosense.app import SenseTableApp
+from smoosense.app import SmooSenseApp
 
 logger = getLogger(__name__)
 
@@ -26,12 +26,12 @@ def find_free_port() -> int:
 
 
 class ServerFixture:
-    """Test server wrapper for SenseTableApp with proper lifecycle management."""
+    """Test server wrapper for SmooSenseApp with proper lifecycle management."""
 
     def __init__(self, host: str = "localhost", port: Optional[int] = None):
         self.host = host
         self.port = port or find_free_port()
-        self.app_instance: Optional[SenseTableApp] = None
+        self.app_instance: Optional[SmooSenseApp] = None
         self.thread: Optional[threading.Thread] = None
         self.server_ready = threading.Event()
         self.shutdown_flag = threading.Event()
@@ -39,10 +39,10 @@ class ServerFixture:
     def _run_server(self) -> None:
         """Run the server in a separate thread."""
         try:
-            logger.info(f"Starting SenseTableApp server on {self.host}:{self.port}")
+            logger.info(f"Starting SmooSenseApp server on {self.host}:{self.port}")
 
-            # Create SenseTableApp instance with minimal configuration
-            self.app_instance = SenseTableApp()
+            # Create SmooSenseApp instance with minimal configuration
+            self.app_instance = SmooSenseApp()
             flask_app = self.app_instance.create_app()
 
             # Configure Flask app to be more suitable for testing

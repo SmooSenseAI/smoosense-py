@@ -3,7 +3,7 @@ import unittest
 
 from my_logging import getLogger
 
-from smoosense.app import SenseTableApp
+from smoosense.app import SmooSenseApp
 
 logger = getLogger(__name__)
 
@@ -13,7 +13,7 @@ class TestQueryEndpoint(unittest.TestCase):
 
     def setUp(self):
         """Set up test Flask app"""
-        self.app_instance = SenseTableApp()
+        self.app_instance = SmooSenseApp()
         self.app = self.app_instance.create_app()
         self.app.config["TESTING"] = True
         self.client = self.app.test_client()

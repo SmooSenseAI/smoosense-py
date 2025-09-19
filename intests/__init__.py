@@ -1,1 +1,1 @@
-"""Integration tests package for SenseTableApp."""
+"""Integration tests package for SmooSenseApp."""

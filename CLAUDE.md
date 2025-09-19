@@ -6,7 +6,7 @@ It provides a web interface for working with CSV, Parquet, and other data format
 
 ## Architecture
 - **CLI Entry Point**: `smoosense/cli.py` - Command-line interface with automatic port selection and browser opening
-- **Main App**: `smoosense/app.py` - Core SenseTableApp Flask application
+- **Main App**: `smoosense/app.py` - Core SmooSenseApp Flask application
 - **Frontend**: `smoosense/statics` - Bundled next.js files.
 - **Database**: `duckdb` based on file systems
 

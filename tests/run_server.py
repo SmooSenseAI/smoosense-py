@@ -1,4 +1,4 @@
-from smoosense.app import SenseTableApp
+from smoosense.app import SmooSenseApp
 
 if __name__ == "__main__":
-    SenseTableApp(url_prefix="/test").run()
+    SmooSenseApp(url_prefix="/test").run()

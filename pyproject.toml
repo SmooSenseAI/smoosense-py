@@ -19,6 +19,9 @@ jupyter = [
     "pandas>=2.3.0",
     "pyarrow>=20.0.0",
     "ipython>=8.0.0",
+]
+daft = [
+    "smoosense[jupyter]",
     "daft>=0.3.0",
 ]
 

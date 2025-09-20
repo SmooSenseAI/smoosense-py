@@ -150,7 +150,7 @@ class Sense:
         """Return HTML representation for Jupyter display."""
         # Construct URL for MiniTable
         file_path = Path(self.temp_file).as_posix()
-        url = f"{self.server.base_url}/Table?filePath={file_path}"
+        url = f"{self.server.base_url}/MiniTable?filePath={file_path}"
 
         # Return IFrame HTML
         return f'''

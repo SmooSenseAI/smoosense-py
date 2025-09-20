@@ -22,10 +22,7 @@ except ImportError:
     DAFT_AVAILABLE = False
 
 from smoosense.app import SmooSenseApp
-from smoosense.my_logging import getLogger
 from smoosense.utils.port import find_available_port
-
-logger = getLogger(__name__)
 
 
 class _SmooSenseServer:
@@ -80,7 +77,6 @@ class _SmooSenseServer:
 
         # Give server time to start
         time.sleep(1)
-        logger.info(f"SmooSense server started at {self.base_url}")
         print(f"SmooSense server started at {self.base_url}")
 
     def register_temp_file(self, filepath: str) -> None:
@@ -142,7 +138,6 @@ class Sense:
 
         # Write DataFrame to parquet
         self.df.to_parquet(temp_path, index=False)
-        logger.debug(f"Created temporary parquet file: {temp_path}")
 
         return temp_path
 
@@ -182,5 +177,4 @@ def cleanup() -> None:
     """Manually cleanup all temporary files."""
     server = _SmooSenseServer()
     server.cleanup_temp_files()
-    logger.info("Cleaned up SmooSense temporary files")
     print("Cleaned up SmooSense temporary files")

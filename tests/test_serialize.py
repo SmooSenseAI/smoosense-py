@@ -1,6 +1,7 @@
 import unittest
 
-from smoosense.my_logging import getLogger
+from my_logging import getLogger
+
 from smoosense.utils.serialization import serialize
 
 logger = getLogger(__name__)

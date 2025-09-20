@@ -19,6 +19,7 @@ jupyter = [
     "pandas>=2.3.0",
     "pyarrow>=20.0.0",
     "ipython>=8.0.0",
+    "daft>=0.3.0",
 ]
 
 [dependency-groups]
@@ -103,5 +104,5 @@ exclude = [
 ]
 
 [[tool.mypy.overrides]]
-module = ["boto3.*", "botocore.*", "pandas.*", "IPython.*"]
+module = ["boto3.*", "botocore.*", "pandas.*", "IPython.*", "daft.*"]
 ignore_missing_imports = true

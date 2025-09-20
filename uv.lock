@@ -360,6 +360,25 @@ wheels = [
 ]
 
 [[package]]
+name = "daft"
+version = "0.6.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "fsspec" },
+    { name = "pyarrow" },
+    { name = "tqdm" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4f/0d/3526bbb0ec14a3d868ee2ad10a616832b830fdf584b27de7a31b7e3415d9/daft-0.6.2.tar.gz", hash = "sha256:3fb7a2205cd5a32de84767d4fa1504190a64f28a30a6528585139de9b0d57541", size = 9652149, upload-time = "2025-09-19T21:38:04.075Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8e/bc/762c7d2fda4e43168c7fc77b258d29b63309f488b387ce24f9b8a4b5ef69/daft-0.6.2-cp39-abi3-macosx_10_12_x86_64.whl", hash = "sha256:52a524ea9ee304cd5b86dc3556953b9b223ba4f2bd921b62aeaf8f9f5255471e", size = 46306777, upload-time = "2025-09-19T21:37:32.659Z" },
+    { url = "https://files.pythonhosted.org/packages/32/47/b87fbf54c0ed6bf444862265323059acbdb856c72094fe1a50f8ddb6ee82/daft-0.6.2-cp39-abi3-macosx_11_0_arm64.whl", hash = "sha256:62611f550ce9462c6705c96430611f8fd721f46c74bd76a9ccc8874e9e9a88cd", size = 42474794, upload-time = "2025-09-19T21:37:36.433Z" },
+    { url = "https://files.pythonhosted.org/packages/ab/3f/ac1d3d5340fbbca504b5e258d8eeaaefe0d775e9c9e7860fb53ede91492a/daft-0.6.2-cp39-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:15255efeea9125ebf96059c79cc2b13325ca6ee4bbe5ab874095df6678806ab2", size = 43759010, upload-time = "2025-09-19T21:37:40.56Z" },
+    { url = "https://files.pythonhosted.org/packages/4a/8a/9d1a0651a586ee35d24b5247db5c59600dae4c3302767bc5045317ac440b/daft-0.6.2-cp39-abi3-manylinux_2_24_x86_64.whl", hash = "sha256:b999ae174b92c82994a93eaff3f7735560cff83af10d0e9d349dc2434839099f", size = 46623139, upload-time = "2025-09-19T21:37:44.197Z" },
+    { url = "https://files.pythonhosted.org/packages/67/d5/59f0b279ae7fd8f9b0b400dd2e20306b4878693b3843e35f7241dfa5d5c1/daft-0.6.2-cp39-abi3-win_amd64.whl", hash = "sha256:32715f6ae22adf183828e6ffa662959e3c76ddf1b080c4322c80445c8c9c0911", size = 44318885, upload-time = "2025-09-19T21:37:48.021Z" },
+]
+
+[[package]]
 name = "datamodel-code-generator"
 version = "0.33.0"
 source = { registry = "https://pypi.org/simple" }
@@ -488,6 +507,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/dc/6d/cfe3c0fcc5e477df242b98bfe186a4c34357b4847e87ecaef04507332dab/flask-3.1.2.tar.gz", hash = "sha256:bf656c15c80190ed628ad08cdfd3aaa35beb087855e2f494910aa3774cc4fd87", size = 720160, upload-time = "2025-08-19T21:03:21.205Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ec/f9/7f9263c5695f4bd0023734af91bedb2ff8209e8de6ead162f35d8dc762fd/flask-3.1.2-py3-none-any.whl", hash = "sha256:ca1d8112ec8a6158cc29ea4858963350011b5c846a414cdb7a954aa9e967d03c", size = 103308, upload-time = "2025-08-19T21:03:19.499Z" },
+]
+
+[[package]]
+name = "fsspec"
+version = "2025.9.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/de/e0/bab50af11c2d75c9c4a2a26a5254573c0bd97cea152254401510950486fa/fsspec-2025.9.0.tar.gz", hash = "sha256:19fd429483d25d28b65ec68f9f4adc16c17ea2c7c7bf54ec61360d478fb19c19", size = 304847, upload-time = "2025-09-02T19:10:49.215Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/47/71/70db47e4f6ce3e5c37a607355f80da8860a33226be640226ac52cb05ef2e/fsspec-2025.9.0-py3-none-any.whl", hash = "sha256:530dc2a2af60a414a832059574df4a6e10cce927f6f4a78209390fe38955cfb7", size = 199289, upload-time = "2025-09-02T19:10:47.708Z" },
 ]
 
 [[package]]
@@ -1970,6 +1998,7 @@ dependencies = [
 
 [package.optional-dependencies]
 jupyter = [
+    { name = "daft" },
     { name = "ipython", version = "8.18.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "ipython", version = "8.37.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
     { name = "ipython", version = "9.5.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
@@ -2002,6 +2031,7 @@ dev = [
 requires-dist = [
     { name = "boto3", specifier = ">=1.39.11" },
     { name = "click", specifier = ">=8.1.8" },
+    { name = "daft", marker = "extra == 'jupyter'", specifier = ">=0.3.0" },
     { name = "duckdb", specifier = ">=1.2.1" },
     { name = "flask", specifier = ">=3.1.0" },
     { name = "ipython", marker = "extra == 'jupyter'", specifier = ">=8.0.0" },

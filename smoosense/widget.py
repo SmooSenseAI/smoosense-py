@@ -6,13 +6,20 @@ import tempfile
 import threading
 import time
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
 try:
     import pandas as pd
     from IPython.display import IFrame
 except ImportError as err:
     raise ImportError("pandas and IPython are required for the SmooSense widget") from err
+
+try:
+    import daft
+
+    DAFT_AVAILABLE = True
+except ImportError:
+    DAFT_AVAILABLE = False
 
 from smoosense.app import SmooSenseApp
 from smoosense.my_logging import getLogger
@@ -94,19 +101,26 @@ class _SmooSenseServer:
 class Sense:
     """Jupyter widget for displaying DataFrames in SmooSense."""
 
-    def __init__(self, dataframe: pd.DataFrame, width: int = 1200, height: int = 600):
+    def __init__(
+        self, dataframe: Union[pd.DataFrame, "daft.DataFrame"], width: int = 1200, height: int = 600
+    ):
         """
-        Create a SmooSense widget for a pandas DataFrame.
+        Create a SmooSense widget for a pandas or daft DataFrame.
 
         Args:
-            dataframe: The pandas DataFrame to display
+            dataframe: The pandas or daft DataFrame to display
             width: Width of the IFrame in pixels
             height: Height of the IFrame in pixels
         """
-        if not isinstance(dataframe, pd.DataFrame):
-            raise TypeError("Expected a pandas DataFrame")
-
-        self.df = dataframe
+        # Check if it's a pandas DataFrame
+        if isinstance(dataframe, pd.DataFrame):
+            self.df = dataframe
+        # Check if it's a daft DataFrame and daft is available
+        elif DAFT_AVAILABLE and hasattr(dataframe, "to_pandas"):
+            # Convert daft DataFrame to pandas for processing
+            self.df = dataframe.to_pandas()
+        else:
+            raise TypeError("Expected a pandas DataFrame or daft DataFrame")
         self.width = width
         self.height = height
         self.server = _SmooSenseServer()
@@ -136,7 +150,7 @@ class Sense:
         """Return HTML representation for Jupyter display."""
         # Construct URL for MiniTable
         file_path = Path(self.temp_file).as_posix()
-        url = f"{self.server.base_url}/MiniTable?filePath={file_path}"
+        url = f"{self.server.base_url}/Table?filePath={file_path}"
 
         # Return IFrame HTML
         return f'''

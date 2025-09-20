@@ -88,7 +88,7 @@ def add_file_metadata(filepath, description, source, source_url, license_info):
 
 
 if __name__ == "__main__":
-    file_path = "/Users/senlin/Work/sense-table-demo-data/datasets-todo/image-to-video-human-preference-hailuo-02-marey/train.parquet"
+    file_path = "/Users/senlin/Work/COCO2017/organized/images-emb-2d.parquet"
 
     print("=== BEFORE ADDING METADATA ===")
     read_parquet_metadata(file_path)
@@ -96,10 +96,10 @@ if __name__ == "__main__":
     print("\n=== ADDING METADATA ===")
     add_file_metadata(
         filepath=file_path,
-        description="Rapidata Video Generation Hailuo-02 v Marey Human Preference",
-        source="Rapidata",
-        source_url="https://huggingface.co/datasets/Rapidata/image-to-video-human-preference-hailuo-02-marey",
-        license_info="Apache license 2.0",
+        description="COCO Object Detection dataset",
+        source="COCO",
+        source_url="https://cocodataset.org",
+        license_info="Creative Commons Attribution 4.0",
     )
 
     print("\n=== AFTER ADDING METADATA ===")

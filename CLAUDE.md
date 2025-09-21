@@ -74,25 +74,3 @@ pyproject.toml          # Python project configuration
 uv.lock                 # Dependency lock file
 ```
 
-## Recent Changes
-- Modified CLI to auto-select available ports
-- Added automatic browser opening with threading
-- Removed manual port selection to keep CLI simple
-
----
-
-## Information Needed from Developer
-
-### Build & Test Commands
-- What commands should be run for testing?
-- What commands should be run for linting/type checking?
-- What is the standard build process?
-- Are there any pre-commit hooks or CI requirements?
-
-### Development Environment
-- Are there any special environment variables or configuration files needed?
-- Any specific Python version requirements?
-- Are there database migrations or setup steps required?
-
-
-

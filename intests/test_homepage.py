@@ -72,7 +72,7 @@ class TestHomepage(BaseIntegrationTest):
 
         # Assert debug mode toggle exists
         logger.info("Checking debug mode toggle")
-        debug_toggle = popover.locator('#debug-mode[data-slot="switch"]')
+        debug_toggle = popover.locator('#debugMode-toggle[data-slot="switch"]')
         self.assertEqual(debug_toggle.count(), 1, "Debug mode toggle not found")
         debug_state = debug_toggle.get_attribute("data-state")
         self.assertEqual(debug_state, "unchecked", "Debug mode should be off by default")

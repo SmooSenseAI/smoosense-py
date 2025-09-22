@@ -97,9 +97,7 @@ class _SmooSenseServer:
 class Sense:
     """Jupyter widget for displaying DataFrames in SmooSense."""
 
-    def __init__(
-        self, dataframe: Union[pd.DataFrame, "daft.DataFrame"], height: int = 600
-    ):
+    def __init__(self, dataframe: Union[pd.DataFrame, "daft.DataFrame"], height: int = 600):
         """
         Create a SmooSense widget for a pandas or daft DataFrame.
 

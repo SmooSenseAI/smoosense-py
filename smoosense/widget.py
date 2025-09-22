@@ -98,14 +98,13 @@ class Sense:
     """Jupyter widget for displaying DataFrames in SmooSense."""
 
     def __init__(
-        self, dataframe: Union[pd.DataFrame, "daft.DataFrame"], width: int = 1200, height: int = 600
+        self, dataframe: Union[pd.DataFrame, "daft.DataFrame"], height: int = 600
     ):
         """
         Create a SmooSense widget for a pandas or daft DataFrame.
 
         Args:
             dataframe: The pandas or daft DataFrame to display
-            width: Width of the IFrame in pixels
             height: Height of the IFrame in pixels
         """
         # Check if it's a pandas DataFrame
@@ -117,7 +116,7 @@ class Sense:
             self.df = dataframe.to_pandas()
         else:
             raise TypeError("Expected a pandas DataFrame or daft DataFrame")
-        self.width = width
+        self.width = "100%"
         self.height = height
         self.server = _SmooSenseServer()
 
@@ -162,7 +161,7 @@ class Sense:
         """Explicitly show the widget (alternative to automatic display)."""
         file_path = Path(self.temp_file).as_posix()
         url = f"{self.server.base_url}/MiniTable?filePath={file_path}"
-        return IFrame(url, width=self.width, height=self.height)
+        return IFrame(url, width="100%", height=self.height)
 
     def __del__(self) -> None:
         """Cleanup when widget is garbage collected."""

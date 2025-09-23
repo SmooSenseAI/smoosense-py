@@ -3,7 +3,7 @@ import logging
 import os
 import textwrap
 
-from flask import Blueprint, Response, current_app, jsonify, request
+from flask import Blueprint, Response, current_app, jsonify, request, send_file
 
 from smoosense.utils.s3_fs import S3FileSystem
 
@@ -13,10 +13,10 @@ logger = logging.getLogger(__name__)
 pages_bp = Blueprint("pages", __name__)
 
 
-def serve_static_html(filename: str) -> Response:
+def serve_static_html(filepath: str) -> Response:
     """Helper function to serve static HTML files"""
     state_file = request.args.get("state")
-    template_file_path = os.path.join(PWD, f"../statics/{filename}.html")
+    template_file_path = os.path.join(PWD, f"../statics/{filepath}.html")
     with open(template_file_path) as f:
         content = f.read()
     state_data = {}
@@ -68,6 +68,15 @@ def get_tabular_slice_dice() -> Response:
 @pages_bp.get("/MiniTable")
 def get_mini_table() -> Response:
     return serve_static_html("MiniTable")
+
+
+@pages_bp.get("/example/<path:subpath>")
+def get_example(subpath: str) -> Response:
+    """Handle all /example/* routes by serving the index page"""
+    if subpath.endswith(".txt"):
+        return send_file(os.path.join(PWD, f"../statics/example/{subpath}"))
+    else:
+        return serve_static_html("example/" + subpath)
 
 
 @pages_bp.get("/api/health")

@@ -84,16 +84,16 @@ class TestHomepage(BaseIntegrationTest):
         )
         self.assertEqual(theme_buttons.count(), 3, "Theme button group should have 3 buttons")
 
-        # Assert that System theme is selected by default
-        logger.info("Checking System theme selection")
-        system_button = popover.locator('button[title="System"]')
-        self.assertEqual(system_button.count(), 1, "System theme button not found")
-        system_classes = system_button.get_attribute("class") or ""
-        self.assertIn("bg-primary", system_classes, "System theme should be selected by default")
+        # Assert that Dark theme is selected by default
+        logger.info("Checking Dark theme selection")
+        dark_button = popover.locator('button[title="Dark"]')
+        self.assertEqual(dark_button.count(), 1, "Dark theme button not found")
+        dark_classes = dark_button.get_attribute("class") or ""
+        self.assertIn("bg-primary", dark_classes, "Dark theme should be selected by default")
         self.assertIn(
-            "text-primary-foreground", system_classes, "System theme should have primary styling"
+            "text-primary-foreground", dark_classes, "Dark theme should have primary styling"
         )
-        logger.info("System theme is correctly selected")
+        logger.info("Dark theme is correctly selected")
 
         # Assert font size slider exists
         logger.info("Checking font size slider")

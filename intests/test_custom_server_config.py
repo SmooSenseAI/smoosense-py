@@ -48,7 +48,9 @@ class CustomServerFixture:
     def _run_server(self) -> None:
         """Run the server in a separate thread."""
         try:
-            logger.info(f"Starting SmooSenseApp server on {self.host}:{self.port} with URL prefix '{self.url_prefix}'")
+            logger.info(
+                f"Starting SmooSenseApp server on {self.host}:{self.port} with URL prefix '{self.url_prefix}'"
+            )
 
             # Create SmooSenseApp instance with custom URL prefix
             self.app_instance = SmooSenseApp(url_prefix=self.url_prefix)
@@ -134,22 +136,24 @@ class TestCustomServerConfig(unittest.TestCase):
         """Clean up resources."""
         logger.info("Tearing down TestCustomServerConfig")
 
-        if hasattr(cls, 'page'):
+        if hasattr(cls, "page"):
             cls.page.close()
-        if hasattr(cls, 'context'):
+        if hasattr(cls, "context"):
             cls.context.close()
-        if hasattr(cls, 'browser'):
+        if hasattr(cls, "browser"):
             cls.browser.close()
-        if hasattr(cls, 'playwright'):
+        if hasattr(cls, "playwright"):
             cls.playwright.stop()
-        if hasattr(cls, 'server'):
+        if hasattr(cls, "server"):
             cls.server.stop()
 
         logger.info("TestCustomServerConfig teardown completed")
 
     def test_custom_server_folder_browser_functionality(self) -> None:
         """Test complete folder browser functionality with custom port and URL prefix."""
-        logger.info(f"Testing folder browser with custom server config: port={self.custom_port}, prefix='{self.url_prefix}'")
+        logger.info(
+            f"Testing folder browser with custom server config: port={self.custom_port}, prefix='{self.url_prefix}'"
+        )
 
         # Navigate to the FolderBrowser
         logger.info(f"Navigating to: {self.folder_browser_url}")
@@ -200,27 +204,37 @@ class TestCustomServerConfig(unittest.TestCase):
         logger.info("Checking for specific preview elements...")
 
         # Check for AG-Grid table headers (column_name should be present in dummy_data_various_types.parquet)
-        column_name_header = self.page.locator('span.ag-header-cell-text[data-ref="eText"]:has-text("column_name")')
+        column_name_header = self.page.locator(
+            'span.ag-header-cell-text[data-ref="eText"]:has-text("column_name")'
+        )
         if column_name_header.count() > 0:
             logger.info("Found AG-Grid column header for 'column_name'")
 
             # Check for cells with col-id=column_name containing idx_str
             column_name_cells = self.page.locator('[col-id="column_name"]:has-text("idx_str")')
             if column_name_cells.count() > 0:
-                logger.info(f"Found {column_name_cells.count()} cells with col-id='column_name' containing 'idx_str'")
+                logger.info(
+                    f"Found {column_name_cells.count()} cells with col-id='column_name' containing 'idx_str'"
+                )
             else:
                 logger.warning("No cells with col-id='column_name' containing 'idx_str' found")
         else:
             # Fallback to general preview checking
             logger.info("AG-Grid column header not found, checking for general preview content...")
-            preview_content = self.page.locator('[data-testid="file-preview"], .preview-content, table, .file-preview')
+            preview_content = self.page.locator(
+                '[data-testid="file-preview"], .preview-content, table, .file-preview'
+            )
 
             if preview_content.count() == 0:
                 # Check if page content changed significantly
                 updated_content = self.page.locator("body").text_content()
                 self.assertIsNotNone(updated_content)
-                self.assertNotEqual(body_content, updated_content, "Page content didn't change after file selection")
-                logger.info("File preview appears to be working (content changed after file selection)")
+                self.assertNotEqual(
+                    body_content, updated_content, "Page content didn't change after file selection"
+                )
+                logger.info(
+                    "File preview appears to be working (content changed after file selection)"
+                )
             else:
                 logger.info(f"Found {preview_content.count()} preview elements")
 
@@ -253,14 +267,20 @@ class TestCustomServerConfig(unittest.TestCase):
 
                 # Check if the new page URL contains '/Table'
                 new_url = new_page.url
-                self.assertIn("/Table", new_url, f"New page URL does not contain '/Table': {new_url}")
-                self.assertIn("filePath=", new_url, f"New page URL does not contain 'filePath=': {new_url}")
+                self.assertIn(
+                    "/Table", new_url, f"New page URL does not contain '/Table': {new_url}"
+                )
+                self.assertIn(
+                    "filePath=", new_url, f"New page URL does not contain 'filePath=': {new_url}"
+                )
                 logger.info(f"Table view opened with correct URL: {new_url}")
 
                 # Check if AG-Grid table is rendered in the new page
                 aggrid_table = new_page.locator('.ag-root, .ag-theme-alpine, [class*="ag-"]')
                 if aggrid_table.count() > 0:
-                    logger.info(f"Found AG-Grid table in Table view ({aggrid_table.count()} elements)")
+                    logger.info(
+                        f"Found AG-Grid table in Table view ({aggrid_table.count()} elements)"
+                    )
                 else:
                     logger.warning("AG-Grid table not found in Table view")
 
@@ -269,7 +289,9 @@ class TestCustomServerConfig(unittest.TestCase):
             else:
                 logger.warning("No new page opened after clicking 'Open in Table view'")
         else:
-            logger.info("'Open in Table view' button not found (may be expected for this file type)")
+            logger.info(
+                "'Open in Table view' button not found (may be expected for this file type)"
+            )
 
         # Verify the server is responding with correct URL prefix
         logger.info(f"Verifying server responds correctly with URL prefix '{self.url_prefix}'")

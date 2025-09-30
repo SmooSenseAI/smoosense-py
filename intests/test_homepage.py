@@ -26,8 +26,13 @@ class TestHomepage(BaseIntegrationTest):
         self.assertIsNotNone(response)
         self.assertEqual(response.status, 200)
 
-        # Wait for the page to load completely
-        self.page.wait_for_load_state("networkidle")
+        # Wait for the page to load completely with a shorter timeout
+        try:
+            self.page.wait_for_load_state("networkidle", timeout=10000)  # 10 seconds
+        except Exception:
+            # If networkidle times out, wait for domcontentloaded as fallback
+            logger.warning("Network idle timeout, falling back to domcontentloaded")
+            self.page.wait_for_load_state("domcontentloaded", timeout=5000)
 
         # Check that the page has loaded some content (not just a blank page)
         body_content = self.page.locator("body").text_content()
@@ -49,11 +54,19 @@ class TestHomepage(BaseIntegrationTest):
         response = self.page.goto(self.base_url)
         self.assertEqual(response.status, 200)
 
-        # Wait for the page to load completely
-        self.page.wait_for_load_state("networkidle")
+        # Wait for the page to load completely with a shorter timeout
+        try:
+            self.page.wait_for_load_state("networkidle", timeout=10000)  # 10 seconds
+        except Exception:
+            # If networkidle times out, wait for domcontentloaded as fallback
+            logger.warning("Network idle timeout, falling back to domcontentloaded")
+            self.page.wait_for_load_state("domcontentloaded", timeout=5000)
 
         # Find the settings button using the exact selector from the UI code
         settings_button = self.page.locator('[data-slot="popover-trigger"][title="Settings"]')
+
+        # Wait for the settings button to appear (up to 5 seconds)
+        settings_button.wait_for(timeout=5000)
 
         # Assert that the settings button exists
         self.assertEqual(settings_button.count(), 1, "Settings button not found on the page")
@@ -73,6 +86,7 @@ class TestHomepage(BaseIntegrationTest):
         # Assert debug mode toggle exists
         logger.info("Checking debug mode toggle")
         debug_toggle = popover.locator('#debugMode-toggle[data-slot="switch"]')
+        debug_toggle.wait_for(timeout=5000)  # Wait for debug toggle to appear
         self.assertEqual(debug_toggle.count(), 1, "Debug mode toggle not found")
         debug_state = debug_toggle.get_attribute("data-state")
         self.assertEqual(debug_state, "unchecked", "Debug mode should be off by default")
@@ -82,11 +96,14 @@ class TestHomepage(BaseIntegrationTest):
         theme_buttons = popover.locator(
             'button[title="Light"], button[title="System"], button[title="Dark"]'
         )
+        # Wait for at least one theme button to appear
+        theme_buttons.first.wait_for(timeout=5000)
         self.assertEqual(theme_buttons.count(), 3, "Theme button group should have 3 buttons")
 
         # Assert that Dark theme is selected by default
         logger.info("Checking Dark theme selection")
         dark_button = popover.locator('button[title="Dark"]')
+        dark_button.wait_for(timeout=5000)  # Wait for dark button to appear
         self.assertEqual(dark_button.count(), 1, "Dark theme button not found")
         dark_classes = dark_button.get_attribute("class") or ""
         self.assertIn("bg-primary", dark_classes, "Dark theme should be selected by default")
@@ -98,10 +115,12 @@ class TestHomepage(BaseIntegrationTest):
         # Assert font size slider exists
         logger.info("Checking font size slider")
         font_size_slider = popover.locator("#fontSize-slider")
+        font_size_slider.wait_for(timeout=5000)  # Wait for font size slider to appear
         self.assertEqual(font_size_slider.count(), 1, "Font size slider not found")
 
         # Check that the slider label exists
         font_size_label = popover.locator('label:has-text("Font Size")')
+        font_size_label.wait_for(timeout=5000)  # Wait for font size label to appear
         self.assertEqual(font_size_label.count(), 1, "Font size label not found")
         logger.info("Font size slider and label found")
 

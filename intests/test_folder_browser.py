@@ -111,8 +111,9 @@ class TestFolderBrowser(BaseIntegrationTest):
         # Wait for the page to load completely
         self.page.wait_for_load_state("networkidle")
 
-        # Find the data folder node
+        # Wait for the data folder node to appear (up to 5 seconds)
         data_node = self.page.locator('span[title="data"]')
+        data_node.wait_for(timeout=5000)  # Wait up to 5 seconds
         self.assertEqual(data_node.count(), 1, "Data folder not found in navigation")
 
         # Click on the data folder to expand it

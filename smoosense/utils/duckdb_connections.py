@@ -43,7 +43,7 @@ def duckdb_connection_using_s3(
         con.execute(f"SET s3_secret_access_key='{aws_secret}'")
         aws_endpoint_url = os.getenv("AWS_ENDPOINT_URL", None)
         if aws_endpoint_url is not None:
-            aws_endpoint = aws_endpoint_url.replace('https://', '')
+            aws_endpoint = aws_endpoint_url.replace("https://", "")
             con.execute(f"SET s3_endpoint='{aws_endpoint}'")
             logger.warning(f'Using AWS endpoint "{aws_endpoint}"')
 

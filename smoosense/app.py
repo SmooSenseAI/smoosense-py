@@ -32,11 +32,13 @@ class SmooSenseApp:
         folder_shortcuts: Optional[dict[str, str]] = None,
     ):
         self.s3_client = s3_client if s3_client is not None else boto3.client("s3")
-        has_s3_config = any([
-            s3_client is not None,
-            os.getenv('S3_PROFILE') is not None,
-            os.getenv('AWS_ENDPOINT_URL') is not None
-        ])
+        has_s3_config = any(
+            [
+                s3_client is not None,
+                os.getenv("S3_PROFILE") is not None,
+                os.getenv("AWS_ENDPOINT_URL") is not None,
+            ]
+        )
 
         if has_s3_config:
             self.duckdb_connection_maker = duckdb_connection_using_s3(s3_client=s3_client)

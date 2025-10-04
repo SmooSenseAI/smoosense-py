@@ -12,7 +12,7 @@ from smoosense.handlers.fs import fs_bp
 from smoosense.handlers.pages import pages_bp
 from smoosense.handlers.query import query_bp
 from smoosense.handlers.s3 import s3_bp
-from smoosense.utils.duckdb_connections import DuckdbConnectionMaker, duckdb_connection_using_s3
+from smoosense.utils.duckdb_connections import duckdb_connection_using_s3
 
 PWD = os.path.dirname(os.path.abspath(__file__))
 
@@ -27,17 +27,22 @@ class SmooSenseApp:
         *,
         url_prefix: str = "",
         s3_client: Optional[BaseClient] = None,
-        duckdb_connection_maker: Optional[DuckdbConnectionMaker] = None,
         license_key: str = "",
         s3_prefix_to_save_shareable_link: str = "",
         folder_shortcuts: Optional[dict[str, str]] = None,
     ):
         self.s3_client = s3_client if s3_client is not None else boto3.client("s3")
-        self.duckdb_connection_maker = (
-            duckdb_connection_maker
-            if duckdb_connection_maker is not None
-            else lambda: duckdb.connect()
-        )
+        has_s3_config = any([
+            s3_client is not None,
+            os.getenv('S3_PROFILE') is not None,
+            os.getenv('AWS_ENDPOINT_URL') is not None
+        ])
+
+        if has_s3_config:
+            self.duckdb_connection_maker = duckdb_connection_using_s3(s3_client=s3_client)
+        else:
+            self.duckdb_connection_maker = lambda: duckdb.connect()
+
         if url_prefix:
             assert url_prefix.startswith("/"), "url_prefix must start with /"
             assert not url_prefix.endswith("/"), "url_prefix must not end with /"
@@ -75,7 +80,6 @@ if __name__ == "__main__":
     s3_client = session.client("s3")
     SmooSenseApp(
         s3_client=s3_client,
-        duckdb_connection_maker=duckdb_connection_using_s3(s3_client=s3_client),
         folder_shortcuts={
             "Downloads": os.path.expanduser("~/Downloads"),
             "Work": "~/Work",

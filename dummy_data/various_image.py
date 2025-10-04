@@ -39,7 +39,7 @@ class VariousImageDataGenerator:
                 'image_url': f'https://cdn.smoosense.ai/demo/sizes/{image_file.name}',
                 'r2_url': f's3://smoosense-cdn/demo/sizes/{image_file.name}',
                 's3_url': f's3://smoosense-demo/images/sizes/{image_file.name}',
-                'rel_url': f'./{image_file.name}',
+                'rel_url': f'./images/{image_file.name}',
                 'image_bytes': image_bytes,
                 'width': width,
                 'height': height,
